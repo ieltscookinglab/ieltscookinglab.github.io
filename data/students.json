@@ -1,0 +1,34 @@
+[
+  {
+    "image": "./img/students/1.jpeg",
+    "name": "Thạch Cù Thanh Ngân",
+    "score": "7.0",
+    "school": "THPT Chuyên Nguyễn Thiện Thành",
+    "linktoreview": "https://www.notion.so/Th-ch-C-Thanh-Ng-n-7-0-overall-22b2f2bbae558096a3a4d0c2a01cb1a5?source=copy_link",
+    "quote": "Em có thể cảm nhận được sự chu đáo, tận tình của chị Mẫn dành cho học sinh của mình."
+  },
+  {
+    "image": "./img/students/2.jpeg",
+    "name": "Ngô Huệ Minh",
+    "score": "7.0",
+    "school": "Monash University",
+    "linktoreview": "https://www.notion.so/Ng-Hu-Minh-7-0-overall-22b2f2bbae5580c38582e8a39e917229?source=copy_link",
+    "quote": "Với Writing, bạn Mẫn dạy rất kĩ từng cấu trúc câu và feedback về bài viết cũng rất có tâm và chi tiết."
+  },
+  {
+    "image": "./img/students/3.jpeg",
+    "name": "Lê Hoàng Bảo Châu",
+    "score": "8.0",
+    "school": "THPT Chuyên Trần Đại Nghĩa",
+    "linktoreview": "https://www.notion.so/L-Ho-ng-B-o-Ch-u-8-0-overall-22b2f2bbae5580febe50f99a48681156?source=copy_link",
+    "quote": "Anh Huy đưa ra như 'quy tắc 2 giây' cho Part 1 hay STAR cho Part 2 giúp mình tự điều chỉnh được nhịp độ nói của mình để tự tin và lưu loát hơn."
+  },
+  {
+    "image": "./img/students/4.jpeg",
+    "name": "Nguyễn Việt Nhân",
+    "score": "7.0",
+    "school": "Hưng Yên Specialized High School",
+    "linktoreview": "https://www.notion.so/Nguy-n-Vi-t-Nh-n-7-0-overall-22b2f2bbae5580c5a5a8e5a07a6143e0?source=copy_link",
+    "quote": "Cách anh Huy dạy rất hay, anh đưa ra lý thuyết trước rồi cho mình áp dụng luôn. Mới chỉ qua một buổi đầu tiên mà mình đã viết được một bài essay 292 chữ, which was really surprising!"
+  }
+]

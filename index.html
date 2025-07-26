@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO & Theming -->
+    <meta
+      name="description"
+      content="Master IELTS with our expert-designed curriculum and high-achieving student stories."
+    />
+    <meta
+      name="keywords"
+      content="IELTS, English, Study, Education, Learning, High Band Score"
+    />
+    <meta name="author" content="IELTS Cooking Lab" />
+    <meta name="theme-color" content="#095bdc" />
+
+    <title>IELTS Cooking Lab</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body
+    x-data="{
+  courses: [
+    ['Khóa Foundation', 'Dành cho học viên mới, cần xây nền vững.', './assets/course_foundation.png', 'foundation_popup', 'Đầu vào 5.0 - 5.5; Đầu ra 6.0 - 6.5'],
+    ['Khoá Intermediate', 'Kèm riêng từng buổi, điều chỉnh theo cá nhân.', './assets/course_intermediate.png', 'intermediate_popup', 'Đầu vào 6.0 - 6.5; Đầu ra: 7.0 - 7.5'],
+    ['Khóa Advanced luyện đề', 'Tăng tốc, làm đề thật & phản xạ nâng cao.', './assets/course_advanced.png', 'advanced_popup', 'Đầu vào 7.0 - 7.5; Đầu ra 8.0+'],
+  ],
+  compatibilities: [
+    ['Chưa có phương pháp tư duy phản biện và logic để tiếp cận các dạng bài Writing và Speaking.', 'salmon', true, '🧠'],
+    ['Cần một partner/mentor hỗ trợ trong toàn bộ quá trình ôn luyện.', 'banana', false, '🤝'],
+    ['Chưa biết cách làm cụ thể từng dạng bài Reading và Listening.', 'lilac', false, '📖'],
+    ['Muốn đạt band điểm IELTS cao (từ 6.5+) nhưng chưa có lộ trình học rõ ràng và hiệu quả.', 'mint', false, '🎯'],
+  ],
+  openPopup: (key, popups) => {
+    document.body.style.overflow = 'hidden';
+    popups[key].state = true;
+
+    const url = new URL(window.location.href);
+    
+    url.searchParams.set('p', popups[key].route);
+    history.pushState({}, '', url);
+  },
+  closePopup: (key, popups) => {
+    document.body.style.overflow = '';
+    popups[key].state = false;
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('p');
+    history.pushState({}, '', url);
+  },
+  popups: {
+    'intermediate_popup': {
+      state: false,
+      route: 'courses_intermediate',
+    },
+    'advanced_popup': {
+      state: false,
+      route: 'courses_advanced',
+    },
+    'foundation_popup': {
+      state: false,
+      route: 'courses_foundation',
+    },
+    'students_popup': {
+      state: false,
+      route: 'all-students',
+    },
+    'activities_popup': {
+      state: false,
+      route: 'activities',
+    },
+  },
+  bodyInit: (popups, openPopup) => {
+    const params = new URLSearchParams(window.location.search);
+    const route = params.get('p');
+    if (!route) return;
+
+    for (const popupID in popups) {
+      if (popups[popupID].route === route) {
+        openPopup(popupID, popups);
+        break; // stop after first match
+      }
+    }
+  },
+}"
+    x-cloak
+    x-init="bodyInit(popups, openPopup)"
+  >
+    <nav>
+      <a href="#hero">
+        <img src="./assets/logo_collapsed.svg" class="small-logo" />
+        <img src="./assets/logo.svg" class="wide-logo" />
+      </a>
+
+      <div class="spacer"></div>
+
+      <div class="navigator">
+        <a role="button" href="#courses" class="button-outlined"> Khoá học </a>
+        <a role="button" href="#contact" class="button-outlined"> Liên hệ </a>
+      </div>
+
+      <div class="spacer"></div>
+
+      <a
+        role="button"
+        class="button-filled animation-shake"
+        :href="$store.json.URLs?.booking"
+        target="_blank"
+      >
+        🗓️ Book tư vấn
+      </a>
+    </nav>
+
+    <main>
+      <!-- HERO SECTION -->
+      <section class="hero-section" id="hero" data-scroll-pass-hero>
+        <div class="spacer"></div>
+
+        <h1 class="hero-title" data-parallax="-0.08 #hero">
+          NẤU BAND IELTS CHUẨN VỊ
+        </h1>
+
+        <div
+          class="hero-card background-mint hero-card-1"
+          data-parallax="0.1 #hero"
+        >
+          <img src="./assets/double_cream.svg" />
+          <p class="text-callout">
+            Giáo trình bài bản, cá nhân hóa theo năng lực
+          </p>
+        </div>
+
+        <div
+          class="hero-card background-lilac hero-card-2"
+          data-parallax="0.12 #hero"
+        >
+          <img src="./assets/badge_cream.svg" />
+          <p class="text-callout">Kèm cặp 1 - 1, feedback “3 sao Michelin”</p>
+        </div>
+
+        <div
+          class="hero-card background-cream hero-card-3"
+          data-parallax="0.2 #hero"
+        >
+          <p class="text-callout">
+            Rèn tư duy phản biện – phân tích để bứt phá Writing & Speaking
+          </p>
+        </div>
+
+        <div
+          class="hero-card background-salmon hero-card-4"
+          data-parallax="0.24 #hero"
+        >
+          <p class="text-callout">
+            Office hour kỹ năng (Speaking, Listening, Reading) sát nhu cầu cá
+            nhân
+          </p>
+        </div>
+
+        <div class="spacer"></div>
+
+        <p class="hero-subtitle text-body">
+          Khóa học IELTS cá nhân hóa và thực chiến được thiết kế bởi 2 mentor
+          Huy Ipin & Mẫn, với hơn 5 năm kinh nghiệm và 30+ học viên đạt 6.5+
+        </p>
+      </section>
+
+      <!-- PPOINTS SECTION -->
+      <section class="ppoints-section" id="ppoints">
+        <img
+          class="hideable-on-mobile floaty rotating-360"
+          data-parallax="0.21 #ppoints"
+          src="./assets/badge_lilac.svg"
+          style="left: calc(328 / 1280 * 100dvw); top: 165px; z-index: -1"
+        />
+        <img
+          class="floaty"
+          data-parallax="0.46 #ppoints"
+          src="./assets/swirl_banana.svg"
+          style="right: calc(201 / 1280 * 100dvw); top: 480px; left: initial"
+        />
+        <aside>
+          <h2 class="text-headline1">
+            Bạn có đang trăn trở với những vấn đề này khi học IELTS hay không?
+          </h2>
+          <img
+            src="./assets/ppoints_subject.png"
+            class="ppoints-subject"
+            data-parallax="-0.13 #ppoints"
+          />
+        </aside>
+        <ul class="ppoints-list" data-parallax="0.1 #ppoints">
+          <li class="text-list-item" data-scroll-animatable="1 3">
+            <span class="highlight-cream">Không biết làm cách nào để</span> nâng
+            band IELTS Overall.
+          </li>
+          <li class="text-list-item" data-scroll-animatable="1 3">
+            <span class="highlight-cream"
+              >Sử dụng cấu trúc câu phức tạp còn nhiều sai sót,</span
+            >
+            không biết lồng ghép như thế nào vào Writing và Speaking.
+          </li>
+          <li class="text-list-item" data-scroll-animatable="1 3">
+            <span class="highlight-cream">Có nhiều idea nhưng</span> không biết
+            phát triển ý trở nên thuyết phục và mang tính vĩ mô.
+          </li>
+          <li class="text-list-item" data-scroll-animatable="1">
+            Chiến lược ôn thi chưa hiệu quả,
+            <span class="highlight-cream"
+              >dẫn đến căng thẳng và áp lực tâm lý.</span
+            >
+          </li>
+        </ul>
+      </section>
+
+      <!-- COMPATIBILITY SECTION -->
+      <section class="compatibility-section" id="compatibility">
+        <h2 class="text-headline1">
+          IELTS Cooking Lab sẽ dành cho bạn nếu bạn...
+        </h2>
+        <h4 class="text-callout" style="margin-top: -16px">Chọn để kiểm tra</h4>
+        <ul class="compatibility-list">
+          <template x-for="(item, index) in compatibilities">
+            <li
+              :class="`background-${item[1]} ${(item[2]) ? 'checked' : ''}`"
+              x-on:click="item[2] = !item[2]"
+              :style="`rotate: ${Math.random() * 2 - 1}deg`"
+            >
+              <div class="checkbox">
+                <img src="./assets/checkbox_check.svg" x-show="item[2]" />
+                <img src="./assets/checkbox_empty.svg" x-show="!item[2]" />
+              </div>
+              <div>
+                <p class="emoji-icon" x-text="item[3]"></p>
+                <p class="text-headline1-alt" x-text="item[0]"></p>
+              </div>
+            </li>
+          </template>
+        </ul>
+
+        <div
+          class="result-space"
+          :class="( compatibilities.filter(c => c[2] === true).length > 2 ) ? 'result-show' : ''"
+        >
+          <h4 class="text-callout">
+            Chúng mình hợp nhau rồi đó!<br />Đặt lịch nấu band IELTS của riêng
+            bạn nhé 🍳
+          </h4>
+          <a
+            role="button"
+            class="button-filled animation-shake"
+            :href="$store.json.URLs?.booking"
+            target="_blank"
+          >
+            🗓️ Book tư vấn
+          </a>
+        </div>
+      </section>
+
+      <!-- REASONS SECTION -->
+      <section class="reasons-section" id="reasons">
+        <img
+          class="floaty"
+          data-parallax="0.1 #reasons"
+          src="./assets/swirl_salmon.svg"
+          style="
+            right: calc(330 / 1280 * 100dvw);
+            top: 76px;
+            left: initial;
+            z-index: 0;
+          "
+        />
+        <h2 class="text-headline1">Vì sao nên chọn IELTS Cooking Lab?</h2>
+        <ul class="reason-list">
+          <li data-parallax="0.01 #reasons">
+            <p class="emoji-icon">👤</p>
+            <p class="text-callout">Phương pháp cá nhân hóa</p>
+            <p class="text-body">
+              Lộ trình học được thiết kế riêng cho từng học viên – cả nội dung,
+              tốc độ lẫn cách tiếp cận.
+            </p>
+          </li>
+          <li data-parallax="0.02 #reasons">
+            <p class="emoji-icon">👩‍🏫</p>
+            <p class="text-callout">Người bạn đồng hành</p>
+            <p class="text-body">
+              Mentor theo sát từ trước – trong – sau giờ học, không để bạn học
+              một mình.
+            </p>
+          </li>
+          <li data-parallax="0.04 #reasons">
+            <p class="emoji-icon">🌐</p>
+            <p class="text-callout">Cộng đồng "Pay it Forward"</p>
+            <p class="text-body">
+              Nơi bạn học được từ người khác và cũng góp phần lan toả giá trị
+              học thuật cho cộng đồng.
+            </p>
+          </li>
+          <li data-parallax="0.06 #reasons">
+            <p class="emoji-icon">🧠</p>
+            <p class="text-callout">Thay đổi tư duy</p>
+            <p class="text-body">
+              Không chỉ luyện thi – mà học cách tư duy phản biện và phát triển
+              nhận thức lâu dài.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- COURSES SECTION -->
+      <section class="courses-section" id="courses">
+        <img
+          class="floaty rotating-360"
+          data-parallax="0.12 #courses"
+          src="./assets/star_banana.svg"
+          style="left: calc(134 / 1280 * 100dvw); top: 146px; z-index: 0"
+        />
+        <img
+          class="floaty"
+          data-parallax="0.24 #courses"
+          src="./assets/double_cream.svg"
+          style="
+            right: calc(111 / 1280 * 100dvw);
+            top: 76px;
+            left: initial;
+            z-index: 0;
+          "
+        />
+        <h4 class="text-callout">Các món học</h4>
+        <h2 class="text-headline1">
+          Bạn đã sẵn sàng trở thành đầu bếp chuyên nghiệp cùng "cook IELTS" với
+          chúng mình chưa?
+        </h2>
+        <ul class="courses-card-list">
+          <template x-for="(course, index) in courses">
+            <li
+              :data-parallax="`${(index+1)*0.05} #courses`"
+              x-on:click="openPopup(course[3], popups)"
+            >
+              <img class="course-cover" :src="course[2]" />
+              <div class="course-info">
+                <p
+                  class="text-headline1-alt"
+                  x-text="course[0]"
+                  style="margin-bottom: 8px"
+                ></p>
+                <p class="text-body text-bold" x-text="course[4]"></p>
+                <p class="text-body opacity-reduce" x-text="course[1]"></p>
+              </div>
+              <img class="icon" src="./assets/arrow_more.svg" />
+            </li>
+          </template>
+        </ul>
+      </section>
+
+      <!-- TEACHERS SECTION -->
+      <section class="teachers-section" id="teachers">
+        <img
+          class="floaty hideable-on-mobile"
+          data-parallax="0.4 #teachers"
+          src="./assets/double_mint.svg"
+          style="left: calc(167 / 1280 * 100dvw); top: 375px; z-index: 1"
+        />
+        <img
+          class="floaty"
+          data-parallax="0.08 #teachers"
+          src="./assets/star_banana.svg"
+          style="left: calc(120 / 1280 * 100dvw); top: 1100px; z-index: 0"
+        />
+        <img
+          class="floaty"
+          data-parallax="0.1 #teachers"
+          src="./assets/swirl_salmon.svg"
+          style="
+            right: calc(153 / 1280 * 100dvw);
+            top: 408px;
+            z-index: 1;
+            left: initial;
+          "
+        />
+        <img
+          class="floaty rotating-360"
+          data-parallax="0.2 #teachers"
+          src="./assets/badge_salmon.svg"
+          style="
+            right: calc(200 / 1280 * 100dvw);
+            top: 900px;
+            z-index: 1;
+            left: initial;
+          "
+        />
+
+        <h2 class="text-headline1 teacher-section-headline">
+          Đội ngũ giảng dạy
+        </h2>
+        <div class="teacher">
+          <div class="teacher-image-container">
+            <img class="avatar" src="./img/teachers/1.png" />
+            <img
+              class="seal"
+              src="./assets/ielts_overall_seal.svg"
+              data-parallax="0.03 #teachers"
+            />
+          </div>
+          <div class="teacher-info" data-scroll-animatable="0.4">
+            <span class="text-extreme-subtag highlight-lilac">Chef</span><br />
+            <h1 class="text-extreme">Huy Ipin</h1>
+            <ul
+              class="achievements-list text-body"
+              data-scroll-animatable="0.8"
+            >
+              <li>High-distinction TESOL Diploma 120 giờ</li>
+              <li>Có gần 5 năm kinh nghiệm dạy IELTS cho hơn 50 học viên</li>
+              <li>Quán quân học bổng 90% VinUniversity</li>
+            </ul>
+          </div>
+          <div
+            class="text-block"
+            data-parallax="-0.02 #teachers"
+            data-scroll-animatable="0.8"
+          >
+            <h4 class="text-callout text-doublequote"></h4>
+            <p class="text-body">
+              Anh sẽ không chỉ truyền đạt kiến thức thi IELTS, mà còn là các
+              kiến thức xã hội đa dạng chủ đề, từ kinh doanh, tài chính đầu tư
+              đến giáo dục, văn hóa. Mục đích anh hướng đến là giúp các bạn xây
+              dựng tư duy phản biện, kỹ năng nghiên cứu và quan trọng nhất là
+              tính kỷ luật.
+              <br /><br />
+
+              Điều quan trọng là khi học IELTS xong thì điều bạn nhận được không
+              chỉ là con điểm, mà còn là những “tài nguyên” quý giá cho hành
+              trình học tập sau này của mọi người nữa nhé!
+              <br />
+            </p>
+          </div>
+        </div>
+
+        <div class="teacher teacher-odd">
+          <div class="teacher-image-container">
+            <img class="avatar" src="./img/teachers/2.png" />
+            <img
+              class="seal"
+              src="./assets/ielts_overall_seal.svg"
+              data-parallax="0.03 #teachers"
+            />
+          </div>
+          <div class="teacher-info" data-scroll-animatable="0.4">
+            <span class="text-extreme-subtag highlight-lilac">Chef</span><br />
+            <h1 class="text-extreme">Giai Mẫn</h1>
+
+            <ul
+              class="achievements-list text-body"
+              data-scroll-animatable="0.8"
+            >
+              <li>Có gần 2 năm kinh nghiệm dạy IELTS cho hơn 20 học viên</li>
+              <li>Có học viên đạt điểm 8.0 Writing</li>
+              <li>Học bổng 80% VinUniversity</li>
+            </ul>
+          </div>
+          <div
+            class="text-block"
+            data-parallax="-0.02 #teachers"
+            data-scroll-animatable="0.8"
+          >
+            <h4 class="text-callout text-doublequote"></h4>
+            <p class="text-body">
+              Với chị, học IELTS không phải là chuyện “học cho xong”, mà là cơ
+              hội để nâng cấp chính mình. Trong mỗi buổi học, tụi mình không chỉ
+              luyện kỹ năng làm bài mà học cách nâng cao tư duy phản biện và xây
+              dựng tính kỉ luật khi học.
+              <br /><br />
+              Điểm cao thì vui đó, nhưng cái “lãi” lớn nhất sau khoá học chính
+              là cách tụi mình rèn luyện sức bền, vượt khó để đạt được con điểm
+              mong muốn mỗi ngày!
+              <br />
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- STUDENTS SECTION -->
+      <section class="students-section" id="students">
+        <img
+          class="floaty"
+          data-parallax="0.12 #students"
+          src="./assets/badge_banana.svg"
+          style="left: calc(6 / 1280 * 100dvw); top: 309px; z-index: 0"
+        />
+        <img
+          class="floaty"
+          data-parallax="0.64 #students"
+          src="./assets/star_cream.svg"
+          style="
+            right: calc(81 / 1280 * 100dvw);
+            top: 626px;
+            left: initial;
+            z-index: 0;
+          "
+        />
+        <div class="high-achieving-students-container">
+          <h2 class="text-headline1">🏅 Học viên của chúng tôi</h2>
+          <div class="spacer"></div>
+          <h1 class="text-extreme" data-parallax="-0.09 #students">
+            NHỮNG ĐẦU BẾP ƯU TÚ CỦA<br />
+            IELTS COOKING LAB
+          </h1>
+
+          <a
+            role="button"
+            class="button-filled"
+            style="margin-top: 40px"
+            x-on:click="openPopup('students_popup', popups)"
+          >
+            💯 Tất cả học viên ưu tú
+          </a>
+
+          <div class="spacer"></div>
+
+          <ul class="high-achieving-students-list">
+            <template x-for="(student, index) in $store.json.recentStudents">
+              <a
+                data-scroll-animatable="1.4"
+                :href="student.linktoreview"
+                target="_blank"
+              >
+                <img x-bind:src="student.image" />
+                <div class="student-info">
+                  <p class="text-headline1">
+                    <span x-text="student.score"></span>
+                    <span class="text-headline2">Overall</span>
+                  </p>
+                  <p class="text-callout" x-text="student.name"></p>
+                  <p
+                    class="text-body text-ha-school"
+                    x-text="student.school"
+                  ></p>
+                  <p class="text-body text-ha-quote" x-text="student.quote"></p>
+                </div>
+              </a>
+            </template>
+          </ul>
+        </div>
+
+        <h2
+          class="text-headline1"
+          style="margin-bottom: 24px; max-width: 340px; text-align: center"
+        >
+          Những cựu đầu bếp nghĩ gì về IELTS Cooking Lab?
+        </h2>
+
+        <div class="reviews-container" id="track">
+          <ul class="reviews">
+            <template x-for="(review, index) in $store.json.reviews.reverse()">
+              <a
+                class="review-card"
+                :href="review.linktoreview"
+                target="_blank"
+              >
+                <p class="text-headline1" x-text="review.name"></p>
+                <p class="text-callout" x-text="review.score + ' Overall'"></p>
+                <p class="text-body review-text" x-text="review.review"></p>
+              </a>
+            </template>
+          </ul>
+        </div>
+        <div class="slider-controls" data-carousel-for="#track">
+          <button class="previous">
+            <img src="./assets/arrow_left.svg" />
+          </button>
+          <button class="next"><img src="./assets/arrow_right.svg" /></button>
+        </div>
+      </section>
+
+      <!-- COMMUNITY SECTION -->
+      <section class="community-section" id="community">
+        <img
+          class="floaty hideable-on-mobile"
+          data-parallax="0.42 #community"
+          src="./assets/double_banana.svg"
+          style="left: calc(503 / 1280 * 100dvw); top: 201px; z-index: 2"
+        />
+        <img
+          class="floaty"
+          data-parallax="0.2 #community"
+          src="./assets/swirl_mint.svg"
+          style="
+            right: calc(113 / 1280 * 100dvw);
+            top: 267px;
+            left: initial;
+            z-index: 2;
+          "
+        />
+        <aside>
+          <h2 class="text-headline1">
+            Chúng mình là cộng đồng IELTS Cooking Lab
+          </h2>
+          <p class="text-body">
+            “Không chỉ là học – mà là kết nối” là cách chúng mình tạo ra một
+            cộng đồng học tập gắn kết. Ở đây, bạn không chỉ học với giáo trình,
+            mà còn được đồng hành cùng mentor, bạn học, và những người truyền
+            cảm hứng – cùng nhau tiến bộ, không ai phải đi một mình.
+          </p>
+        </aside>
+        <ul class="ppoints-list">
+          <li class="text-list-item" data-scroll-animatable="1.5 3.4">
+            Học viên được chia sẻ, động viên lẫn nhau.
+          </li>
+          <li class="text-list-item" data-scroll-animatable="1.5 3.4">
+            Phụ huynh được đồng hành, cập nhật tiến độ con cái.
+          </li>
+          <li class="text-list-item" data-scroll-animatable="1.5">
+            Không FOMO thông tin về kỳ thi, xu hướng đề thi thật.
+          </li>
+        </ul>
+        <div class="community-gallery" id="gallery">
+          <h5 class="text-callout header">Hoạt động của IELTS Cooking Lab</h5>
+
+          <template
+            x-for="(activity, index) in $store.json.recentActivities.reverse()"
+          >
+            <div
+              class="image-card"
+              :style="`rotate: ${Math.random() * 2 - 1}deg`"
+              :data-parallax="`${index*0.05 + 0.08} #community`"
+            >
+              <img :src="activity.image" />
+              <p class="card-caption text-callout" x-text="activity.caption">
+                Lorem ipsum
+              </p>
+            </div>
+          </template>
+        </div>
+        <div class="end">
+          <a
+            role="button"
+            class="button-filled"
+            x-on:click="openPopup('activities_popup', popups)"
+          >
+            🙈 Xem toàn bộ
+          </a>
+          <a
+            role="button"
+            :href="$store.json.URLs?.activities"
+            target="_blank"
+            class="button-outlined"
+          >
+            Tìm hiểu thêm
+          </a>
+        </div>
+      </section>
+
+      <!-- DEMO SECTION -->
+      <section class="demo-section" id="demo">
+        <h2 class="text-headline1">
+          Vẫn còn phân vân? Thử xem một vài đoạn học thử để cảm nhận nhé!
+        </h2>
+        <div class="video-container" data-scroll-animatable="0.8">
+          <div class="video">
+            <iframe
+              src="https://www.youtube.com/embed/Vi093Tm4VB8?si=9mNJXsdBsWjuTZGK"
+              title="Buổi Học Thử Writing by Mentor Huy Ipin"
+              frameborder="0"
+              referrerpolicy="no-referrer-when-downgrade"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+        <div class="video-container" data-scroll-animatable="0.8">
+          <div class="video">
+            <iframe
+              src="https://www.youtube.com/embed/SJ88Y85XaHQ?si=foOuMr9Wux7bGCrD"
+              title="Buổi Học Thử Speaking by Mentor Giai Mẫn"
+              frameborder="0"
+              referrerpolicy="no-referrer-when-downgrade"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT SECTION -->
+      <section class="contact-section" id="contact">
+        <p class="text-callout highlight-ultramarine contact-micro">
+          Hành trình điểm số 6.5+ bắt đầu từ một bước nhỏ: đặt lịch tư vấn với
+          mentor hôm nay!
+        </p>
+
+        <h1 class="text-extreme">
+          SẴN SÀNG NẤU BAND IELTS CHUẨN VỊ CỦA BẠN CHƯA? ĐẶT LỊCH TƯ VẤN
+          <span class="highlight-lilac">MIỄN PHÍ</span> NHÉ!
+        </h1>
+
+        <a
+          role="button"
+          data-parallax="0.34 #contact"
+          :href="$store.json.URLs?.booking"
+          target="_blank"
+          class="button-filled floaty-button"
+          style="
+            right: calc(399 / 1280 * 100dvw);
+            top: 214px;
+            z-index: 2;
+            rotate: -17.4deg;
+          "
+        >
+          🗓️ Book tư vấn
+        </a>
+        <a
+          role="button"
+          data-parallax="0.2 #contact"
+          :href="$store.json.URLs?.facebook"
+          target="_blank"
+          class="button-filled invert floaty-button"
+          style="
+            left: calc(313 / 1280 * 100dvw);
+            top: 488;
+            z-index: 2;
+            rotate: 8.1deg;
+          "
+        >
+          Facebook (Huy Ipin)
+        </a>
+        <a
+          role="button"
+          data-parallax="0.12 #contact"
+          :href="$store.json.URLs?.instagram"
+          target="_blank"
+          class="button-filled invert floaty-button"
+          style="
+            right: calc(384 / 1280 * 100dvw);
+            top: 569px;
+            z-index: 2;
+            rotate: -27.2deg;
+          "
+        >
+          Instagram (Giai Mẫn)
+        </a>
+      </section>
+
+      <!-- FOOTER SECTION -->
+      <footer class="footer-section" id="footer">
+        <img class="logo-footer" src="./assets/logo_footer.svg" />
+        <ul class="contact-footer text-callout">
+          <a
+            class="contact-link"
+            :href="$store.json.URLs?.booking"
+            target="_blank"
+          >
+            <img src="./assets/icons/book.svg" />
+            Book tư vấn
+          </a>
+          <a
+            class="contact-link"
+            :href="`mailto:${$store.json.URLs?.email}`"
+            target="_blank"
+          >
+            <img src="./assets/icons/email.svg" />
+            E-mail
+          </a>
+          <a
+            class="contact-link"
+            :href="$store.json.URLs?.facebook"
+            target="_blank"
+          >
+            <img src="./assets/icons/facebook.svg" />
+            Facebook (Huy Ipin)
+          </a>
+          <a
+            class="contact-link"
+            :href="$store.json.URLs?.instagram"
+            target="_blank"
+          >
+            <img src="./assets/icons/instagram.svg" />
+            Instagram (Giai Mẫn)
+          </a>
+        </ul>
+        <div class="spacer"></div>
+        <p class="text-body">
+          © <span x-text="new Date().getFullYear()"></span> IELTS Cooking Lab.
+          All rights reserved.<br />Designed with 🧑‍💻 & 🍵 by Lewis Võ – Visual
+          Communicator & Storyteller.
+        </p>
+      </footer>
+
+      <!-- POPUPS -->
+      <section
+        class="popup intermediate-popup"
+        x-show="popups[popupId].state"
+        x-data="{popupId: 'intermediate_popup'}"
+        x-transition:enter="popup-enter"
+        x-transition:enter-start="popup-leave"
+        x-transition:leave="popup-leave"
+      >
+        <div class="scrim" x-on:click="closePopup(popupId, popups)"></div>
+        <div
+          class="popup-container"
+          x-show="popups[popupId].state"
+          x-transition:enter="popup-enter"
+          x-transition:enter-start="popup-leave"
+          x-transition:leave="popup-leave"
+        >
+          <div class="close-header">
+            <button x-on:click="closePopup(popupId, popups)">
+              <img src="./assets/close.svg" />
+            </button>
+          </div>
+          <div class="popup-content">
+            <h1 class="text-extreme popup-title">Khoá Intermediate</h1>
+            <img class="full-image" src="./img/courses/intermediate_info.png" />
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="popup advanced-popup"
+        x-show="popups[popupId].state"
+        x-data="{popupId: 'advanced_popup'}"
+        x-transition:enter="popup-enter"
+        x-transition:enter-start="popup-leave"
+        x-transition:leave="popup-leave"
+      >
+        <div class="scrim" x-on:click="closePopup(popupId, popups)"></div>
+        <div
+          class="popup-container"
+          x-show="popups[popupId].state"
+          x-effect="if (popups[popupId].state === false) { $el.querySelector('.popup-content').scrollTo({ top: 0, behavior: 'auto' }) }"
+          x-transition:enter="popup-enter"
+          x-transition:enter-start="popup-leave"
+          x-transition:leave="popup-leave"
+        >
+          <div class="close-header">
+            <button x-on:click="closePopup(popupId, popups)">
+              <img src="./assets/close.svg" />
+            </button>
+          </div>
+          <div class="popup-content">
+            <h1 class="text-extreme popup-title">Khoá Advanced</h1>
+            <img class="full-image" src="./img/courses/advanced_info.png" />
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="popup oneone-popup"
+        x-show="popups[popupId].state"
+        x-data="{popupId: 'foundation_popup'}"
+        x-transition:enter="popup-enter"
+        x-transition:enter-start="popup-leave"
+        x-transition:leave="popup-leave"
+      >
+        <div class="scrim" x-on:click="closePopup(popupId, popups)"></div>
+        <div
+          class="popup-container"
+          x-show="popups[popupId].state"
+          x-effect="if (popups[popupId].state === false) { $el.querySelector('.popup-content').scrollTo({ top: 0, behavior: 'auto' }) }"
+          x-transition:enter="popup-enter"
+          x-transition:enter-start="popup-leave"
+          x-transition:leave="popup-leave"
+        >
+          <div class="close-header">
+            <button x-on:click="closePopup(popupId, popups)">
+              <img src="./assets/close.svg" />
+            </button>
+          </div>
+          <div class="popup-content">
+            <h1 class="text-extreme popup-title">Khoá Foundation</h1>
+            <img class="full-image" src="./img/courses/foundation_info.png" />
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="popup students-popup"
+        x-show="popups[popupId].state"
+        x-data="{popupId: 'students_popup'}"
+        x-transition:enter="popup-enter"
+        x-transition:enter-start="popup-leave"
+        x-transition:leave="popup-leave"
+      >
+        <div class="scrim" x-on:click="closePopup(popupId, popups)"></div>
+        <div
+          class="popup-container"
+          x-show="popups[popupId].state"
+          x-effect="if (popups[popupId].state === false) { $el.querySelector('.popup-content').scrollTo({ top: 0, behavior: 'auto' }) }"
+          x-transition:enter="popup-enter"
+          x-transition:enter-start="popup-leave"
+          x-transition:leave="popup-leave"
+        >
+          <div class="close-header">
+            <button x-on:click="closePopup(popupId, popups)">
+              <img src="./assets/close.svg" />
+            </button>
+          </div>
+          <div class="popup-content">
+            <h1 class="text-extreme popup-title">Tất cả học viên ưu tú</h1>
+            <ul class="high-achieving-students-list stable-list">
+              <template x-for="(student, index) in $store.json.students">
+                <a
+                  :style="`rotate: ${Math.random() * 3 - 1.5}deg`"
+                  :href="student.linktoreview"
+                  target="_blank"
+                >
+                  <img x-bind:src="student.image" />
+                  <div class="student-info">
+                    <p class="text-headline1">
+                      <span x-text="student.score"></span>
+                      <span class="text-headline2">Overall</span>
+                    </p>
+                    <p class="text-callout" x-text="student.name"></p>
+                    <p
+                      class="text-body text-ha-school"
+                      x-text="student.school"
+                    ></p>
+                    <p
+                      class="text-body text-ha-quote"
+                      x-text="student.quote"
+                    ></p>
+                  </div>
+                </a>
+              </template>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="popup"
+        x-show="popups[popupId].state"
+        x-data="{popupId: 'activities_popup'}"
+        x-transition:enter="popup-enter"
+        x-transition:enter-start="popup-leave"
+        x-transition:leave="popup-leave"
+      >
+        <div class="scrim" x-on:click="closePopup(popupId, popups)"></div>
+        <div
+          class="popup-container"
+          x-show="popups[popupId].state"
+          x-effect="if (popups[popupId].state === false) { $el.querySelector('.popup-content').scrollTo({ top: 0, behavior: 'auto' }) }"
+          x-transition:enter="popup-enter"
+          x-transition:enter-start="popup-leave"
+          x-transition:leave="popup-leave"
+        >
+          <div class="close-header">
+            <button x-on:click="closePopup(popupId, popups)">
+              <img src="./assets/close.svg" />
+            </button>
+          </div>
+          <div class="popup-content">
+            <h1 class="text-extreme popup-title">Tất cả hoạt động</h1>
+            <ul class="activity-gallery">
+              <template
+                x-for="(activity, index) in $store.json.activities.reverse()"
+              >
+                <li class="image-card">
+                  <img :src="activity.image" />
+                  <p
+                    class="card-caption text-callout"
+                    x-text="activity.caption"
+                  >
+                    Lorem ipsum
+                  </p>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/carousel.js"></script>
+    <script src="js/scroll-animation.js"></script>
+    <script src="js/modal.js"></script>
+
+    <script src="js/index.js"></script>
+  </body>
+</html>
