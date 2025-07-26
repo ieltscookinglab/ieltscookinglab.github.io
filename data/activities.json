@@ -1,6 +1,14 @@
 [
   {
     "caption": "",
+    "image": "./img/activities/4.png"
+  },
+  {
+    "caption": "",
+    "image": "./img/activities/5.png"
+  },
+  {
+    "caption": "Lớp học Writing",
     "image": "./img/activities/1.jpeg"
   },
   {
@@ -8,7 +16,7 @@
     "image": "./img/activities/2.jpeg"
   },
   {
-    "caption": "",
+    "caption": "Lớp học Writing",
     "image": "./img/activities/3.jpeg"
   }
 ]
